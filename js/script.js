@@ -381,6 +381,36 @@ function initGuestLimit() {
 }
 
 // ==========================================
+// COPY TO CLIPBOARD
+// ==========================================
+function initCopyButtons() {
+    const copyBtns = document.querySelectorAll('.copy-btn');
+
+    copyBtns.forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const textToCopy = btn.getAttribute('data-clipboard-text');
+
+            try {
+                await navigator.clipboard.writeText(textToCopy);
+
+                // Visual feedback
+                const originalIcon = btn.innerHTML;
+                btn.classList.add('copied');
+                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = originalIcon;
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+            }
+        });
+    });
+}
+
+
+// ==========================================
 // INITIALIZATION
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -396,6 +426,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initRSVPForm();
     initGuestLimit();
     initParallax();
+    initCopyButtons();
+
 
     console.log('Carlos & Bianca Wedding Invitation - Optimized ✅');
 });

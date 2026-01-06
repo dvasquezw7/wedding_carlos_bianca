@@ -1608,3 +1608,62 @@ body {
     transform: scale(1.05);
     filter: brightness(1.1);
 }
+
+/* ==========================================
+   COPY TO CLIPBOARD
+   ========================================== */
+.copy-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+
+.copy-row p {
+    margin-bottom: 0;
+}
+
+.copy-btn {
+    background: transparent;
+    border: 1px solid var(--primary-light);
+    color: var(--primary);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    opacity: 0.7;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+.copy-btn:hover {
+    background: rgba(155, 27, 48, 0.1);
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+
+.copy-btn:focus {
+    outline: none;
+}
+
+.copy-btn:active {
+    background: rgba(155, 27, 48, 0.2);
+}
+
+
+.copy-btn.copied {
+    background: var(--bg-medium);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+
+.copy-btn svg {
+    pointer-events: none;
+}
