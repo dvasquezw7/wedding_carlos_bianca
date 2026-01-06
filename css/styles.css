@@ -798,6 +798,8 @@ body {
     cursor: pointer;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transition: var(--transition);
+    aspect-ratio: 1 / 1;
+
 }
 
 .gallery-item:hover {
@@ -943,7 +945,9 @@ body {
     padding: var(--section-padding);
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     color: white;
-    scroll-margin-top: var(--nav-height);
+    color: white;
+    scroll-margin-top: 80px;
+
 }
 
 .rsvp-section .section-title {
@@ -1596,6 +1600,45 @@ body {
     }
 }
 
+
+.lightbox-download {
+    position: absolute;
+    top: 30px;
+    right: 100px;
+    color: white;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: var(--transition);
+    z-index: 2001;
+    backdrop-filter: blur(5px);
+}
+
+.lightbox-download:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .lightbox-download {
+        top: 20px;
+        right: 80px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .lightbox-download svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+
 .clickable-qr {
     transition: var(--transition);
 }
@@ -1603,4 +1646,63 @@ body {
 .clickable-qr:hover {
     transform: scale(1.05);
     filter: brightness(1.1);
+}
+
+/* ==========================================
+   COPY TO CLIPBOARD
+   ========================================== */
+.copy-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+
+.copy-row p {
+    margin-bottom: 0;
+}
+
+.copy-btn {
+    background: transparent;
+    border: 1px solid var(--primary-light);
+    color: var(--primary);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    opacity: 0.7;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+.copy-btn:hover {
+    background: rgba(155, 27, 48, 0.1);
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+
+.copy-btn:focus {
+    outline: none;
+}
+
+.copy-btn:active {
+    background: rgba(155, 27, 48, 0.2);
+}
+
+
+.copy-btn.copied {
+    background: var(--bg-medium);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+
+.copy-btn svg {
+    pointer-events: none;
 }

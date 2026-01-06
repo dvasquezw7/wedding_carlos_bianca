@@ -94,23 +94,8 @@ function initCalendar() {
 // ==========================================
 // SMOOTH SCROLL FOR NAVIGATION LINKS
 // ==========================================
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
+// Smooth scroll handled by CSS scroll-behavior: smooth
 
-            const target = document.querySelector(targetId);
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-}
 
 // ==========================================
 // INTERSECTION OBSERVER FOR ANIMATIONS
@@ -237,15 +222,63 @@ function initLightbox() {
             openLightbox(qrImage.src);
         });
     }
+
+    // Force Download Logic
+    const downloadLink = document.getElementById('lightbox-download');
+    if (downloadLink) {
+        downloadLink.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const url = downloadLink.href;
+
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = blobUrl;
+                a.download = downloadLink.download;
+                document.body.appendChild(a);
+                a.click();
+
+                window.URL.revokeObjectURL(blobUrl);
+                document.body.removeChild(a);
+            } catch (err) {
+                console.error('Download failed:', err);
+                // Fallback
+                window.open(url, '_blank');
+            }
+        });
+    }
 }
+
 
 function openLightbox(src) {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
+    const downloadLink = document.getElementById('lightbox-download');
+
 
     if (!lightbox || !lightboxImg) return;
 
     lightboxImg.src = src;
+
+    // Update download link visibility and source
+    if (downloadLink) {
+        // Only show for QR codes (checking filename parts)
+        const isQR = src.toLowerCase().includes('qr') || src.includes('banco');
+
+        if (isQR) {
+            downloadLink.style.display = 'flex';
+            downloadLink.href = src;
+            downloadLink.download = 'QR_Banco_Carlos_Bianca.png';
+        } else {
+            downloadLink.style.display = 'none';
+        }
+    }
+
+
     lightbox.style.display = 'flex';
     // Timeout para permitir que el display:flex se aplique antes de la opacidad
     setTimeout(() => {
@@ -253,6 +286,7 @@ function openLightbox(src) {
     }, 10);
     document.body.style.overflow = 'hidden'; // Evitar scroll al estar abierto
 }
+
 
 function closeLightbox() {
     const lightbox = document.getElementById('lightbox');
@@ -396,12 +430,43 @@ function initGuestLimit() {
 }
 
 // ==========================================
+// COPY TO CLIPBOARD
+// ==========================================
+function initCopyButtons() {
+    const copyBtns = document.querySelectorAll('.copy-btn');
+
+    copyBtns.forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const textToCopy = btn.getAttribute('data-clipboard-text');
+
+            try {
+                await navigator.clipboard.writeText(textToCopy);
+
+                // Visual feedback
+                const originalIcon = btn.innerHTML;
+                btn.classList.add('copied');
+                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = originalIcon;
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+            }
+        });
+    });
+}
+
+
+// ==========================================
 // INITIALIZATION
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     initCountdown();
     initNavbar();
-    initSmoothScroll();
+    // initSmoothScroll(); // Handled by CSS
+
     initCalendar();
     // initMusicPlayer();
     initGallery();
@@ -410,6 +475,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initRSVPForm();
     initGuestLimit();
     initParallax();
+    initCopyButtons();
+
 
     console.log('Carlos & Bianca Wedding Invitation - Optimized ✅');
 });

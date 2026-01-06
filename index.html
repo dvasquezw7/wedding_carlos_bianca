@@ -304,9 +304,43 @@
                     <div class="bank-details">
                         <p><strong>Banco:</strong> BancoEstado</p>
                         <p><strong>Tipo:</strong> CuentaRUT</p>
-                        <p><strong>N° Cuenta:</strong> 18581527</p>
-                        <p><strong>RUT:</strong> 18.581.527-7</p>
-                        <p><strong>Nombre:</strong> Carlos Rivas</p>
+
+                        <div class="copy-row">
+                            <p><strong>N° Cuenta:</strong> <span class="copy-text">18581527</span></p>
+                            <button class="copy-btn" data-clipboard-text="18581527"
+                                aria-label="Copiar número de cuenta">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="copy-row">
+                            <p><strong>RUT:</strong> <span class="copy-text">18.581.527-7</span></p>
+                            <button class="copy-btn" data-clipboard-text="18.581.527-7" aria-label="Copiar RUT">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="copy-row">
+                            <p><strong>Nombre:</strong> <span class="copy-text">Carlos Rivas</span></p>
+                            <button class="copy-btn" data-clipboard-text="Carlos Rivas" aria-label="Copiar Nombre">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -384,10 +418,19 @@
     <!-- Lightbox -->
     <div id="lightbox" class="lightbox">
         <span class="lightbox-close">&times;</span>
+        <a id="lightbox-download" href="#" download class="lightbox-download" title="Descargar imagen">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+        </a>
         <div class="lightbox-content">
             <img id="lightbox-img" src="" alt="Foto expandida">
         </div>
     </div>
+
 
     <script src="js/script.js"></script>
 </body>
