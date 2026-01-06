@@ -987,12 +987,13 @@ body {
 }
 
 .seats-number {
-    font-size: 3.5rem;
+    font-size: 5rem;
     font-weight: 700;
     color: var(--primary);
     line-height: 1;
-    margin: 10px 0;
+    margin: 5px 0;
     font-family: var(--font-heading);
+    text-shadow: 2px 2px 0px rgba(var(--primary-rgb), 0.1);
 }
 
 .form-group {
