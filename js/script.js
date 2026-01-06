@@ -94,23 +94,8 @@ function initCalendar() {
 // ==========================================
 // SMOOTH SCROLL FOR NAVIGATION LINKS
 // ==========================================
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
+// Smooth scroll handled by CSS scroll-behavior: smooth
 
-            const target = document.querySelector(targetId);
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-}
 
 // ==========================================
 // INTERSECTION OBSERVER FOR ANIMATIONS
@@ -401,7 +386,8 @@ function initGuestLimit() {
 document.addEventListener('DOMContentLoaded', () => {
     initCountdown();
     initNavbar();
-    initSmoothScroll();
+    // initSmoothScroll(); // Handled by CSS
+
     initCalendar();
     // initMusicPlayer();
     initGallery();

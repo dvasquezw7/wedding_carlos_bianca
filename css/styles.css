@@ -798,6 +798,8 @@ body {
     cursor: pointer;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transition: var(--transition);
+    aspect-ratio: 1 / 1;
+
 }
 
 .gallery-item:hover {
@@ -943,7 +945,9 @@ body {
     padding: var(--section-padding);
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     color: white;
-    scroll-margin-top: var(--nav-height);
+    color: white;
+    scroll-margin-top: 80px;
+
 }
 
 .rsvp-section .section-title {
