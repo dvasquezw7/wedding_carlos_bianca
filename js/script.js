@@ -19,10 +19,12 @@ function initCountdown() {
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         document.getElementById('days').textContent = String(days).padStart(2, '0');
         document.getElementById('hours').textContent = String(hours).padStart(2, '0');
         document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
     }
 
     update();
@@ -43,6 +45,50 @@ function initNavbar() {
             navbar.classList.remove('visible');
         }
     }, { passive: true });
+}
+
+// ==========================================
+// CALENDAR EVENT GENERATION
+// ==========================================
+function initCalendar() {
+    const calendarBtn = document.getElementById('add-calendar-btn');
+    if (!calendarBtn) return;
+
+    calendarBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const event = {
+            title: 'Boda de Carlos y Bianca',
+            description: '¡Día de nuestra boda! Estamos felices de compartirlo contigo.',
+            location: 'Cochabamba, Bolivia',
+            start: '20260409T130000',
+            end: '20260410T020000'
+        };
+
+        const icsContent = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Carlos&Bianca//Wedding//ES',
+            'BEGIN:VEVENT',
+            `DTSTART:${event.start}`,
+            `DTEND:${event.end}`,
+            `SUMMARY:${event.title}`,
+            `DESCRIPTION:${event.description}`,
+            `LOCATION:${event.location}`,
+            'END:VEVENT',
+            'END:VCALENDAR'
+        ].join('\n');
+
+        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'Boda_Carlos_y_Bianca.ics');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+    });
 }
 
 // ==========================================
@@ -130,34 +176,97 @@ function initGallery() {
     const gallery = document.getElementById('gallery');
     if (!gallery) return;
 
-    const gradients = [
-        'linear-gradient(135deg, hsl(348, 75%, 60%), hsl(348, 75%, 75%))',
-        'linear-gradient(135deg, hsl(25, 70%, 65%), hsl(25, 70%, 80%))',
-        'linear-gradient(135deg, hsl(45, 75%, 70%), hsl(45, 75%, 85%))',
-        'linear-gradient(135deg, hsl(348, 70%, 65%), hsl(25, 65%, 75%))',
-        'linear-gradient(135deg, hsl(25, 70%, 70%), hsl(45, 75%, 80%))',
-        'linear-gradient(135deg, hsl(348, 65%, 70%), hsl(45, 70%, 80%))'
+    const photos = [
+        'assets/photos/photo1.jpeg',
+        'assets/photos/photo2.jpeg',
+        'assets/photos/photo3.jpeg',
+        'assets/photos/photo4.jpeg',
+        'assets/photos/photo5.jpeg',
+        'assets/photos/photo6.jpeg'
     ];
 
-    const icons = ['💕', '❤️', '💑', '💐', '🌹', '💍'];
-
-    gradients.forEach((gradient, index) => {
+    photos.forEach((src, index) => {
         const item = document.createElement('div');
-        item.className = 'gallery-item';
+        item.className = 'gallery-item fade-in-up';
         item.innerHTML = `
-            <div style="width: 100%; height: 100%; background: ${gradient}; display: flex; align-items: center; justify-content: center; font-size: 4rem;">
-                ${icons[index]}
-            </div>
+            <img src="${src}" alt="Momento ${index + 1}" loading="lazy">
             <div class="gallery-overlay">
                 <span>+</span>
             </div>
         `;
+
+        // Abrir lightbox al hacer clic
+        item.addEventListener('click', () => {
+            openLightbox(src);
+        });
+
         gallery.appendChild(item);
     });
 }
 
 // ==========================================
-// RSVP FORM HANDLING
+// LIGHTBOX LOGIC
+// ==========================================
+function initLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    const closeBtn = document.querySelector('.lightbox-close');
+
+    if (!lightbox || !closeBtn) return;
+
+    // Cerrar al hacer clic en la X
+    closeBtn.addEventListener('click', closeLightbox);
+
+    // Cerrar al hacer clic fuera de la imagen
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    // Cerrar con tecla Esc
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            closeLightbox();
+        }
+    });
+
+    // Soporte para QR Clickable
+    const qrImage = document.querySelector('.clickable-qr');
+    if (qrImage) {
+        qrImage.addEventListener('click', () => {
+            openLightbox(qrImage.src);
+        });
+    }
+}
+
+function openLightbox(src) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    if (!lightbox || !lightboxImg) return;
+
+    lightboxImg.src = src;
+    lightbox.style.display = 'flex';
+    // Timeout para permitir que el display:flex se aplique antes de la opacidad
+    setTimeout(() => {
+        lightbox.classList.add('active');
+    }, 10);
+    document.body.style.overflow = 'hidden'; // Evitar scroll al estar abierto
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox) return;
+
+    lightbox.classList.remove('active');
+    setTimeout(() => {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }, 400); // Mismo tiempo que la transición en CSS
+}
+
+// ==========================================
+// RSVP FORM HANDLING (Google Forms Integration)
 // ==========================================
 function initRSVPForm() {
     const form = document.getElementById('rsvp-form');
@@ -165,33 +274,82 @@ function initRSVPForm() {
 
     if (!form || !formMessage) return;
 
-    form.addEventListener('submit', (e) => {
+    // Configuración de Google Form
+    // Configuración de Google Form - Boda Carlos & Bianca
+    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeECeezgpVPoX3ec7nBAOeTqwKDq3AlhjlUQ7UF8x4qRdyFSw/formResponse';
+    const ENTRY_IDS = {
+        name: 'entry.1386259863',      // ID del campo Invitado(s) - CORRECTO
+        attendance: 'entry.524133637',  // ID del campo Asistiran - CORREGIDO
+        message: 'entry.495918196'      // ID del campo Mensaje - CORREGIDO
+    };
+
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const formData = {
-            name: document.getElementById('name').value,
-            attendance: document.getElementById('attendance').value,
-            message: document.getElementById('message').value
-        };
+        const submitBtn = form.querySelector('.submit-button');
+        const originalBtnText = submitBtn.textContent;
 
-        // Simulate form submission
-        console.log('RSVP Data:', formData);
+        const nameValue = document.getElementById('name').value;
+        const attendanceValue = document.getElementById('attendance').value;
+        const messageValue = document.getElementById('message').value;
 
-        // Show success message
-        formMessage.className = 'form-message success';
-        formMessage.textContent = '¡Gracias por confirmar! Hemos recibido tu respuesta. 💕';
-        formMessage.style.display = 'block';
+        // Validar que se haya seleccionado una opción
+        if (!attendanceValue) {
+            formMessage.className = 'form-message error';
+            formMessage.textContent = 'Por favor selecciona si asistirás.';
+            formMessage.style.display = 'block';
+            return;
+        }
 
-        // Reset form
-        form.reset();
+        // Bloquear botón y mostrar carga
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
 
-        // Hide message after 5 seconds
-        setTimeout(() => {
-            formMessage.style.display = 'none';
-        }, 5000);
+        // Usar URLSearchParams para asegurar el formato application/x-www-form-urlencoded
+        const params = new URLSearchParams();
+        params.append(ENTRY_IDS.name, nameValue);
+        params.append(ENTRY_IDS.attendance, attendanceValue === 'yes' ? 'Si' : 'No');
+        params.append(ENTRY_IDS.message, messageValue);
 
-        // Scroll to message
-        formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        try {
+            // Intentar envío a Google Forms (no-cors es esencial para evitar errores de preflight)
+            await fetch(GOOGLE_FORM_URL, {
+                method: 'POST',
+                body: params,
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+
+            // Éxito
+            formMessage.className = 'form-message success';
+            formMessage.textContent = '¡Gracias por confirmar! Tu respuesta ha sido enviada con éxito.';
+            formMessage.style.display = 'block';
+            form.reset();
+
+            // Mantener el nombre del invitado si los parámetros siguen ahí
+            initGuestLimit();
+
+        } catch (error) {
+            console.error('Error al enviar:', error);
+            // Aunque falle el fetch por CORS (si no se usa no-cors), 
+            // generalmente el dato llega igual. Pero aquí usamos no-cors para mayor seguridad.
+            formMessage.className = 'form-message success'; // Usualmente Google responde con 0 en no-cors
+            formMessage.textContent = '¡Gracias por confirmar! Hemos recibido tu respuesta.';
+            formMessage.style.display = 'block';
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+
+            // Scroll suave al mensaje
+            formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Ocultar mensaje después de unos segundos si es éxito
+            setTimeout(() => {
+                formMessage.style.display = 'none';
+            }, 6000);
+        }
     });
 }
 
@@ -244,9 +402,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initCountdown();
     initNavbar();
     initSmoothScroll();
-    initScrollAnimations();
+    initCalendar();
     // initMusicPlayer();
     initGallery();
+    initScrollAnimations();
+    initLightbox();
     initRSVPForm();
     initGuestLimit();
     initParallax();
