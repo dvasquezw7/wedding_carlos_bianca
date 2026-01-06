@@ -489,7 +489,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 120px;
+    min-width: 100px;
 }
 
 .countdown-number {
@@ -1346,7 +1346,7 @@ body {
     }
 
     .countdown-item {
-        min-width: 90px;
+        min-width: 80px;
     }
 
     .countdown-number {
@@ -1492,7 +1492,7 @@ body {
     }
 
     .countdown-item {
-        min-width: 70px;
+        min-width: 65px;
     }
 
     .countdown-number {
@@ -1593,4 +1593,13 @@ body {
         right: 20px;
         font-size: 40px;
     }
+}
+
+.clickable-qr {
+    transition: var(--transition);
+}
+
+.clickable-qr:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
 }
