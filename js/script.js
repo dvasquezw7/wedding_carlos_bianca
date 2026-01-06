@@ -324,7 +324,7 @@ function initRSVPForm() {
 
             // Éxito
             formMessage.className = 'form-message success';
-            formMessage.textContent = '¡Gracias por confirmar! Tu respuesta ha sido enviada con éxito. 💕';
+            formMessage.textContent = '¡Gracias por confirmar! Tu respuesta ha sido enviada con éxito.';
             formMessage.style.display = 'block';
             form.reset();
 
@@ -336,7 +336,7 @@ function initRSVPForm() {
             // Aunque falle el fetch por CORS (si no se usa no-cors), 
             // generalmente el dato llega igual. Pero aquí usamos no-cors para mayor seguridad.
             formMessage.className = 'form-message success'; // Usualmente Google responde con 0 en no-cors
-            formMessage.textContent = '¡Gracias por confirmar! Hemos recibido tu respuesta. 💕';
+            formMessage.textContent = '¡Gracias por confirmar! Hemos recibido tu respuesta.';
             formMessage.style.display = 'block';
         } finally {
             submitBtn.disabled = false;
