@@ -367,12 +367,18 @@
                 </div>
 
                 <div class="form-group">
-                    <select id="attendance" name="attendance" required>
-                        <option value="">Selecciona una opción</option>
-                        <option value="yes">Sí, asistiré con gusto</option>
-                        <option value="no">No podré asistir</option>
-                    </select>
-                    <label for="attendance">¿Asistirás?</label>
+                    <div class="custom-select-wrapper" id="attendance-wrapper">
+                        <div class="custom-select-trigger">
+                            <span id="select-label"></span>
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="custom-options">
+                            <div class="custom-option" data-value="yes">Sí, asistiré con gusto</div>
+                            <div class="custom-option" data-value="no">No podré asistir</div>
+                        </div>
+                        <input type="hidden" id="attendance" name="attendance" required>
+                        <label for="attendance" class="custom-select-label">¿Asistirás?</label>
+                    </div>
                 </div>
                 <div class="form-group">
                     <textarea id="message" name="message" rows="4" placeholder=" "></textarea>

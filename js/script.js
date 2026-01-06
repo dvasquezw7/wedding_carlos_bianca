@@ -459,9 +459,61 @@ function initCopyButtons() {
 }
 
 
+
+// ==========================================
+// CUSTOM DROPDOWN LOGIC
+// ==========================================
+function initCustomDropdown() {
+    const wrapper = document.getElementById('attendance-wrapper');
+    if (!wrapper) return;
+
+    const trigger = wrapper.querySelector('.custom-select-trigger');
+    const customOptions = wrapper.querySelectorAll('.custom-option');
+    const hiddenInput = document.getElementById('attendance');
+    const labelSpan = document.getElementById('select-label');
+
+    // Toggle open/close
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent document click from closing immediately
+        wrapper.classList.toggle('open');
+    });
+
+    // Handle option selection
+    customOptions.forEach(option => {
+        option.addEventListener('click', function (e) {
+            e.stopPropagation(); // Stop propagation
+
+            // Remove selected class from all
+            customOptions.forEach(opt => opt.classList.remove('selected'));
+            // Add to current
+            this.classList.add('selected');
+
+            // Update visible text and hidden value
+            const value = this.getAttribute('data-value');
+            const text = this.textContent;
+
+            labelSpan.textContent = text;
+            labelSpan.style.color = 'var(--text-dark)'; // Ensure text is visible
+            hiddenInput.value = value;
+
+            // Visual feedback (filled state for label)
+            wrapper.classList.add('filled');
+            wrapper.classList.remove('open');
+        });
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!wrapper.contains(e.target)) {
+            wrapper.classList.remove('open');
+        }
+    });
+}
+
 // ==========================================
 // INITIALIZATION
 // ==========================================
+
 document.addEventListener('DOMContentLoaded', () => {
     initCountdown();
     initNavbar();
@@ -476,6 +528,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initGuestLimit();
     initParallax();
     initCopyButtons();
+    initCustomDropdown();
+
 
 
     console.log('Carlos & Bianca Wedding Invitation - Optimized ✅');
