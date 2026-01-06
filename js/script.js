@@ -148,8 +148,67 @@ function initGallery() {
                 <span>+</span>
             </div>
         `;
+
+        // Abrir lightbox al hacer clic
+        item.addEventListener('click', () => {
+            openLightbox(src);
+        });
+
         gallery.appendChild(item);
     });
+}
+
+// ==========================================
+// LIGHTBOX LOGIC
+// ==========================================
+function initLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    const closeBtn = document.querySelector('.lightbox-close');
+
+    if (!lightbox || !closeBtn) return;
+
+    // Cerrar al hacer clic en la X
+    closeBtn.addEventListener('click', closeLightbox);
+
+    // Cerrar al hacer clic fuera de la imagen
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    // Cerrar con tecla Esc
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            closeLightbox();
+        }
+    });
+}
+
+function openLightbox(src) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    if (!lightbox || !lightboxImg) return;
+
+    lightboxImg.src = src;
+    lightbox.style.display = 'flex';
+    // Timeout para permitir que el display:flex se aplique antes de la opacidad
+    setTimeout(() => {
+        lightbox.classList.add('active');
+    }, 10);
+    document.body.style.overflow = 'hidden'; // Evitar scroll al estar abierto
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox) return;
+
+    lightbox.classList.remove('active');
+    setTimeout(() => {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }, 400); // Mismo tiempo que la transición en CSS
 }
 
 // ==========================================
@@ -243,6 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // initMusicPlayer();
     initGallery();
     initScrollAnimations();
+    initLightbox();
     initRSVPForm();
     initGuestLimit();
     initParallax();
