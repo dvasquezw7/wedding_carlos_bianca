@@ -108,7 +108,7 @@
                     </div>
                 </div>
                 <div class="calendar-footer">
-                    <a href="#" class="add-to-calendar">Agendar</a>
+                    <a href="#" id="add-calendar-btn" class="add-to-calendar">Agendar</a>
                 </div>
             </div>
         </div>
@@ -130,6 +130,10 @@
                 <div class="countdown-item">
                     <span id="minutes" class="countdown-number">00</span>
                     <span class="countdown-label">Minutos</span>
+                </div>
+                <div class="countdown-item">
+                    <span id="seconds" class="countdown-number">00</span>
+                    <span class="countdown-label">Segundos</span>
                 </div>
             </div>
         </div>
@@ -282,8 +286,8 @@
                     <div class="bank-details">
                         <p>Escanea el código QR desde tu aplicación bancaria</p>
                         <div
-                            style="margin: 20px auto; width: 200px; height: 200px; background: white; padding: 10px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                            <img src="assets/images/qr_banco_union.png" alt="QR Banco Unión"
+                            style="margin: 20px auto; width: 200px; height: 200px; background: white; padding: 10px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer;">
+                            <img src="assets/images/qr_banco_union.png" alt="QR Banco Unión" class="clickable-qr"
                                 style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
                         <p><strong>Banco:</strong> Banco Unión</p>
@@ -341,6 +345,7 @@
                     <label for="message">Mensaje para los Novios (Opcional)</label>
                 </div>
                 <button type="submit" class="submit-button">Enviar Confirmación</button>
+                <div id="form-message" class="form-message"></div>
             </form>
         </div>
     </section>
@@ -375,6 +380,14 @@
             <p class="footer-signature">Carlos & Bianca</p>
         </div>
     </footer>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="Foto expandida">
+        </div>
+    </div>
 
     <script src="js/script.js"></script>
 </body>
