@@ -130,24 +130,20 @@ function initGallery() {
     const gallery = document.getElementById('gallery');
     if (!gallery) return;
 
-    const gradients = [
-        'linear-gradient(135deg, hsl(348, 75%, 60%), hsl(348, 75%, 75%))',
-        'linear-gradient(135deg, hsl(25, 70%, 65%), hsl(25, 70%, 80%))',
-        'linear-gradient(135deg, hsl(45, 75%, 70%), hsl(45, 75%, 85%))',
-        'linear-gradient(135deg, hsl(348, 70%, 65%), hsl(25, 65%, 75%))',
-        'linear-gradient(135deg, hsl(25, 70%, 70%), hsl(45, 75%, 80%))',
-        'linear-gradient(135deg, hsl(348, 65%, 70%), hsl(45, 70%, 80%))'
+    const photos = [
+        'assets/photos/photo1.jpeg',
+        'assets/photos/photo2.jpeg',
+        'assets/photos/photo3.jpeg',
+        'assets/photos/photo4.jpeg',
+        'assets/photos/photo5.jpeg',
+        'assets/photos/photo6.jpeg'
     ];
 
-    const icons = ['💕', '❤️', '💑', '💐', '🌹', '💍'];
-
-    gradients.forEach((gradient, index) => {
+    photos.forEach((src, index) => {
         const item = document.createElement('div');
-        item.className = 'gallery-item';
+        item.className = 'gallery-item fade-in-up';
         item.innerHTML = `
-            <div style="width: 100%; height: 100%; background: ${gradient}; display: flex; align-items: center; justify-content: center; font-size: 4rem;">
-                ${icons[index]}
-            </div>
+            <img src="${src}" alt="Momento ${index + 1}" loading="lazy">
             <div class="gallery-overlay">
                 <span>+</span>
             </div>
@@ -244,9 +240,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initCountdown();
     initNavbar();
     initSmoothScroll();
-    initScrollAnimations();
     // initMusicPlayer();
     initGallery();
+    initScrollAnimations();
     initRSVPForm();
     initGuestLimit();
     initParallax();

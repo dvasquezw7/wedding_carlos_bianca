@@ -782,9 +782,8 @@ body {
 }
 
 .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    column-count: 3;
+    column-gap: 20px;
     margin-top: 50px;
 }
 
@@ -792,7 +791,10 @@ body {
     position: relative;
     overflow: hidden;
     border-radius: 15px;
-    aspect-ratio: 1;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 20px;
+    break-inside: avoid;
     cursor: pointer;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transition: var(--transition);
@@ -1402,8 +1404,12 @@ body {
 
     /* Gallery - Mobile */
     .gallery-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 10px;
+        column-count: 2;
+        column-gap: 15px;
+    }
+
+    .gallery-item {
+        margin-bottom: 15px;
     }
 
     /* Gifts - Mobile */
@@ -1507,5 +1513,9 @@ body {
 
     .seats-number {
         font-size: 2.5rem;
+    }
+
+    .gallery-grid {
+        column-count: 1;
     }
 }
